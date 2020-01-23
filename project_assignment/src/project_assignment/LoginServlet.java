@@ -1,0 +1,61 @@
+package project_assignment;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter pw=response.getWriter();
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		RequestDispatcher rd;
+		PreparedStatement pst=null;
+		Connection con=null;
+		
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			 con=DriverManager.getConnection("jdbc:mysql://localhost:3306/test?user=root&password=root");
+			 pst=con.prepareStatement("select * from curd where username=? and password=?");
+			pst.setString(1, username);
+			pst.setString(2, password);
+			ResultSet rs=pst.executeQuery();
+			if(rs.next()){
+				 Cookie ck=new Cookie("k1",username);
+		    	 response.addCookie(ck);
+				pw.print("<h4>login successful : <h4>"+ck.getValue()+"<br>");
+				pw.print("<a href='QueryServlet'>order</a>");
+				rd=request.getRequestDispatcher("welcome.html");
+				
+		    	 rd.include(request, response);
+				
+			}
+			else{
+				pw.print("login failed");
+			}
+				
+		} 
+		
+		catch (ClassNotFoundException | SQLException e) {
+pw.print("<h3>login unsuccessful</h3>");
+			e.printStackTrace();
+		}
+		
+	}
+
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Student-one _to many-using_hibernate">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="Student-one__to_many-using_hibernate"/>
+        <property name="java-output-path" value="/Student-one _to many-using_hibernate/build/classes"/>
+    </wb-module>
+</project-modules>
